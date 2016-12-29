@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/stingus/crawler.svg?branch=master)](https://travis-ci.org/stingus/crawler)
+[![Code Climate](https://codeclimate.com/github/stingus/crawler/badges/gpa.svg)](https://codeclimate.com/github/stingus/crawler)
+[![Test Coverage](https://codeclimate.com/github/stingus/crawler/badges/coverage.svg)](https://codeclimate.com/github/stingus/crawler/coverage)
+
 # Crawler
 This application crawls for RON (New Romanian Leu) exchange rates from National Bank of Romania (NBR) and UE's Inforeuro.
 
