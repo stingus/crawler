@@ -7,9 +7,9 @@ crawl:
       password: ~
   exchange:
     sources:
-      -
-        class: 'Stingus\Crawler\Exchange\NbrCrawler'
-        url: 'http://www.bnro.ro/nbrfxrates.xml'
-      -
-        class: 'Stingus\Crawler\Exchange\InforeuroCrawler'
-        url: 'http://ec.europa.eu/budg/inforeuro/api/public/monthly-rates'
+    -
+      class: 'Stingus\Crawler\Exchange\NbrCrawler'
+      url: 'http://www.bnro.ro/nbrfxrates.xml'
+    -
+      class: 'Stingus\Crawler\Exchange\InforeuroCrawler'
+      url: 'http://ec.europa.eu/budg/inforeuro/api/public/monthly-rates'

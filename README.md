@@ -18,11 +18,11 @@ For now, data can be persisted in a MySQL database. Make sure to fill in the con
 your environment:
 ```yaml
 storage:
-    mysql:
-      host: 127.0.0.1
-      db: crawler
-      user: crawler
-      password: ~
+  mysql:
+    host: 127.0.0.1
+    db: crawler
+    user: crawler
+    password: ~
 ```
 You just need to create the database, the tables are automatically maintained by the application (see Migrations below).
 
@@ -30,13 +30,13 @@ You just need to create the database, the tables are automatically maintained by
 Data sources are configured through this section:
 ```yaml
 exchange:
-    sources:
-      -
-        class: 'Stingus\Crawler\Exchange\NbrCrawler'
-        url: 'http://www.bnro.ro/nbrfxrates.xml'
-      -
-        class: 'Stingus\Crawler\Exchange\InforeuroCrawler'
-        url: 'http://ec.europa.eu/budg/inforeuro/api/public/monthly-rates'
+  sources:
+  -
+    class: 'Stingus\Crawler\Exchange\NbrCrawler'
+    url: 'http://www.bnro.ro/nbrfxrates.xml'
+  -
+    class: 'Stingus\Crawler\Exchange\InforeuroCrawler'
+    url: 'http://ec.europa.eu/budg/inforeuro/api/public/monthly-rates'
 ```
 If you'd like to skip the Inforeuro exchange rate from crawling, remove the entry from the config. The NBR crawler
 MUST be left in place, because it provides the reference date for each crawl.
