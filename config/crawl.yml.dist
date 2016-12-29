@@ -1,0 +1,15 @@
+crawl:
+  storage:
+    mysql:
+      host: 127.0.0.1
+      db: crawler
+      user: crawler
+      password: ~
+  exchange:
+    sources:
+      -
+        class: 'Stingus\Crawler\Exchange\NbrCrawler'
+        url: 'http://www.bnro.ro/nbrfxrates.xml'
+      -
+        class: 'Stingus\Crawler\Exchange\InforeuroCrawler'
+        url: 'http://ec.europa.eu/budg/inforeuro/api/public/monthly-rates'
