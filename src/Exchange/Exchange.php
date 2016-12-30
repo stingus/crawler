@@ -2,7 +2,7 @@
 
 namespace Stingus\Crawler\Exchange;
 
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 
 /**

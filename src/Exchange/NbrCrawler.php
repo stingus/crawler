@@ -12,7 +12,6 @@ class NbrCrawler extends ExchangeCrawler
 {
     /**
      * @inheritdoc
-     * @throws \Guzzle\Http\Exception\RequestException
      * @throws \RuntimeException
      */
     public function crawl()

@@ -14,7 +14,6 @@ class InforeuroCrawler extends ExchangeCrawler
 
     /**
      * @inheritDoc
-     * @throws \Guzzle\Http\Exception\RequestException
      * @throws \RuntimeException
      */
     public function crawl()

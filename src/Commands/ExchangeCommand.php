@@ -2,7 +2,7 @@
 
 namespace Stingus\Crawler\Commands;
 
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 use Stingus\Crawler\Exchange\Exchange;
 use Stingus\Crawler\Storage\Exchange\ExchangeStorage;
 use Stingus\Crawler\Storage\MySqlConnection;
@@ -34,7 +34,6 @@ class ExchangeCommand extends CrawlCommand
      * @inheritdoc
      * @throws \Symfony\Component\Console\Exception\CommandNotFoundException
      * @throws \Symfony\Component\Yaml\Exception\ParseException
-     * @throws \Guzzle\Common\Exception\RuntimeException
      * @throws \InvalidArgumentException
      * @throws \PDOException
      * @throws \RuntimeException

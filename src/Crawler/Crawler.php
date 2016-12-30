@@ -2,7 +2,7 @@
 
 namespace Stingus\Crawler\Crawler;
 
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 
 /**
@@ -61,12 +61,11 @@ abstract class Crawler
 
     /**
      * @return string
-     * @throws \Guzzle\Http\Exception\RequestException
      */
     protected function getContent()
     {
         if (null === $this->content) {
-            $this->content = $this->client->get($this->sourceUrl)->send()->getBody(true);
+            $this->content = $this->client->get($this->sourceUrl)->getBody();
         }
 
         return $this->content;
