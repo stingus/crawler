@@ -27,7 +27,7 @@ storage:
 You just need to create the database, the tables are automatically maintained by the application (see Migrations below).
 
 ### Exchange section
-Data sources are configured through this section:
+Data sources for exchange rates are configured through this section:
 ```yaml
 exchange:
   sources:
@@ -41,9 +41,29 @@ exchange:
 If you'd like to skip the Inforeuro exchange rate from crawling, remove the entry from the config. The NBR crawler
 MUST be left in place, because it provides the reference date for each crawl.
 
+### Weather section
+Data sources for weather are configured through this section:
+```yaml
+weather:
+  unit: 'C'
+  sources:
+  -
+    class: 'Stingus\Crawler\Weather\YahooCrawler'
+    url: 'http://query.yahooapis.com/v1/public/yql'
+    stations: [868274]
+```
+For now, only Yahoo Weather is available, tough other sources could be easily added.
+
+For units you can use 'C' for Celsius or 'F' for Fahrenheit. For Yahoo Weather, stations are WOEID identifiers, which
+can be found using the [official documentation](https://developer.yahoo.com/weather/documentation.html) or using this
+[3rd party tool](http://woeid.rosselliot.co.nz/). In brief, you can search for a location on
+[Yahoo Weather](https://www.yahoo.com/news/weather/) and your WOEID is the last integer part of the URL.
+The WOEID in the example configuration is for Bucharest, Romania.
+
 ## Usage
-Run the `bin/exchange` command. The application checks if the DB schema is in place and it creates it if required.
-The data is stored in the `exchange` table. You might want to use a cron to run the script daily.
+For exchange rates, run the `bin/exchange` command and for weather run `bin/weather`.
+The application checks if the DB schema is in place and it creates it if required.
+The data is stored in the `exchange` and `weather` tables. You might want to use a cron to run the scripts daily.
 
 ## Schema migration
 The application maintains the schema automatically, by checking if the schema is valid before each run.
