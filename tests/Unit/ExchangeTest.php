@@ -2,8 +2,9 @@
 
 namespace Stingus\Crawler\Test\Unit;
 
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
+use Stingus\Crawler\Crawler\Crawler;
 use Stingus\Crawler\Exchange\Exchange;
 use Stingus\Crawler\Exchange\ExchangeCrawler;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
@@ -43,6 +44,22 @@ class ExchangeTest extends TestCase
     public function testExchangeCrawlWithoutRegisteredCrawlers()
     {
         $exchange = new Exchange(new DomCrawler(), new Client());
+        $exchange->crawl();
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessageRegExp /Expected ExchangeCrawler instance, got [a-zA-Z0-9_]+/
+     */
+    public function testExchangeWithInvalidCrawler()
+    {
+        $exchange = new Exchange(new DomCrawler(), new Client());
+        $crawler = $this
+            ->getMockBuilder(Crawler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        /** @noinspection PhpParamsInspection */
+        $exchange->registerCrawler($crawler);
         $exchange->crawl();
     }
 
@@ -203,7 +220,7 @@ class ExchangeTest extends TestCase
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessageRegExp /Rate "b" already exists/
+     * @expectedExceptionMessageRegExp /Key "b" already exists/
      */
     public function testExchangeCrawlMultipleCrawlersWithDuplicateKeysInData()
     {

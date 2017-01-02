@@ -2,7 +2,7 @@
 
 namespace Stingus\Crawler\Commands;
 
-use Stingus\Crawler\Migrations\Migration;
+use Stingus\Crawler\Migration\Migration;
 use Stingus\Crawler\Storage\MySqlConnection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -40,12 +40,12 @@ class MigrationCommand extends CrawlCommand
         $fromVersion = $migration->migrate();
         if (-1 === $fromVersion) {
             $output->writeln('<info>created schema.</info> ');
-        } elseif ($fromVersion < Migration::LAST_VERSION) {
+        } elseif ($fromVersion < $migration->getMaxVersion()) {
             $output->writeln(
                 sprintf(
                     '<info>successfully executed migrations from %s to %s</info>',
                     $fromVersion,
-                    Migration::LAST_VERSION
+                    $migration->getMaxVersion()
                 )
             );
         } else {

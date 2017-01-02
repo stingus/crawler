@@ -40,31 +40,29 @@ class ExchangeStorage implements StorageInterface
      */
     public function save(\ArrayObject $results)
     {
+        $dbh = $this->conn->getDbh();
         if ($this->hasDate()) {
             return false;
         }
         $columns = array_map('strtolower', array_keys($results->getArrayCopy()));
         $columns[] = 'date';
-        $placeholders = implode(
-            array_map(
-                function ($item) {
-                    return ':' . $item;
-                },
-                $columns
-            ),
-            ','
-        );
+        $placeholders = $this->conn->createPlaceholders($columns);
         $query = 'INSERT INTO ' . self::TABLE. ' (' . implode($columns, ',') . ') VALUES (' . $placeholders . ')';
-        $sth = $this->conn->getDbh()->prepare($query);
+        $sth = $dbh->prepare($query);
 
-        foreach ($results as $abbr => $value) {
-            $sth->bindValue(':' . strtolower($abbr), $value);
+        foreach ($results as $key => $value) {
+            $sth->bindValue(':' . strtolower($key), $value);
         }
         $sth->bindValue(':date', $this->date->format('Y-m-d'));
 
-        if (false === $sth->execute()) {
-            throw new \PDOException('Failed to save exchange data: ' . $sth->errorInfo()[2]);
+        $dbh->beginTransaction();
+        try {
+            $sth->execute();
+        } catch (\PDOException $e) {
+            $dbh->rollBack();
+            throw $e;
         }
+        $dbh->commit();
 
         return true;
     }

@@ -44,7 +44,7 @@ class ExchangeCommand extends CrawlCommand
         $this->checkMigrations($output);
 
         $config = $this->getConfig();
-        $output->writeln(sprintf('Starting to crawl on %s', date('d/m/y H:i:s')));
+        $output->writeln(sprintf('Starting the exchange crawl on %s', date('d/m/y H:i:s')));
         $exchange = new Exchange(new Crawler(), new Client());
 
         /** @var array $sources */

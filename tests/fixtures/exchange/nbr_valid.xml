@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DataSet xmlns="http://www.bnr.ro/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bnr.ro/xsd nbrfxrates.xsd">
+    <Header>
+        <Publisher>National Bank of Romania</Publisher>
+        <PublishingDate>2016-12-30</PublishingDate>
+        <MessageType>DR</MessageType>
+    </Header>
+    <Body>
+        <Subject>Reference rates</Subject>
+        <OrigCurrency>RON</OrigCurrency>
+        <Cube date="2016-12-30">
+            <Rate currency="AED">0.0001</Rate>
+            <Rate currency="AUD">1.0010</Rate>
+            <Rate currency="BGN">2.0100</Rate>
+            <Rate currency="BRL">3.1000</Rate>
+            <Rate currency="CAD">4.9000</Rate>
+            <Rate currency="CHF">5.0900</Rate>
+            <Rate currency="CNY">6.0090</Rate>
+            <Rate currency="CZK">7.0009</Rate>
+            <Rate currency="DKK">8.0099</Rate>
+            <Rate currency="EGP">9.0999</Rate>
+            <Rate currency="EUR">10.9999</Rate>
+            <Rate currency="GBP">11.0000</Rate>
+            <Rate currency="HRK">12.1111</Rate>
+            <Rate currency="HUF" multiplier="100">13.2222</Rate>
+            <Rate currency="INR">14.3333</Rate>
+            <Rate currency="JPY" multiplier="100">15.4444</Rate>
+            <Rate currency="KRW" multiplier="100">16.5555</Rate>
+            <Rate currency="MDL">17.6666</Rate>
+            <Rate currency="MXN">18.7777</Rate>
+            <Rate currency="NOK">19.8888</Rate>
+            <Rate currency="NZD">20.9999</Rate>
+            <Rate currency="PLN">21.00001</Rate>
+            <Rate currency="RSD">22</Rate>
+            <Rate currency="RUB">23.00004</Rate>
+            <Rate currency="SEK">24.00005</Rate>
+            <Rate currency="TRY">25.00006</Rate>
+            <Rate currency="UAH">26.0000</Rate>
+            <Rate currency="USD">27.0000</Rate>
+            <Rate currency="XAU">28.0000</Rate>
+            <Rate currency="XDR">29.0000</Rate>
+            <Rate currency="ZAR">30.0000</Rate>
+        </Cube>
+    </Body>
+</DataSet>

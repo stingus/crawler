@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DataSet xmlns="http://www.bnr.ro/xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bnr.ro/xsd nbrfxrates.xsd">
+    <Body>
+        <Cube>
+        </Cube>
+    </Body>
+</DataSet>

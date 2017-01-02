@@ -13,3 +13,10 @@ crawl:
     -
       class: 'Stingus\Crawler\Exchange\InforeuroCrawler'
       url: 'http://ec.europa.eu/budg/inforeuro/api/public/monthly-rates'
+  weather:
+    unit: 'C'
+    sources:
+    -
+      class: 'Stingus\Crawler\Weather\YahooCrawler'
+      url: 'http://query.yahooapis.com/v1/public/yql'
+      stations: [868274]

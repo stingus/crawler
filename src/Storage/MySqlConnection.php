@@ -51,4 +51,44 @@ class MySqlConnection
     {
         return $this->dbName;
     }
+
+    /**
+     * Create PDO placeholders for the array column
+     *
+     * @param array $columns
+     *
+     * @return string
+     */
+    public function createPlaceholders(array $columns)
+    {
+        return implode(
+            array_map(
+                function ($item) {
+                    return ':' . $item;
+                },
+                $columns
+            ),
+            ', '
+        );
+    }
+
+    /**
+     * Generate ON DUPLICATE KEY UPDATE sql
+     *
+     * @param array $columns
+     *
+     * @return string
+     */
+    public function onDuplicateSql(array $columns)
+    {
+        return implode(
+            array_map(
+                function ($item) {
+                    return $item . '=' . 'VALUES(' . $item . ')';
+                },
+                $columns
+            ),
+            ', '
+        );
+    }
 }

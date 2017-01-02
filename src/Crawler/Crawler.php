@@ -22,9 +22,6 @@ abstract class Crawler
     /** @var string */
     protected $sourceUrl;
 
-    /** @var string */
-    private $content;
-
     /**
      * Crawler constructor.
      *
@@ -60,15 +57,13 @@ abstract class Crawler
     }
 
     /**
+     * @param array $options Request options
+     *
      * @return string
      */
-    protected function getContent()
+    protected function getContent(array $options = array())
     {
-        if (null === $this->content) {
-            $this->content = $this->client->get($this->sourceUrl)->getBody();
-        }
-
-        return $this->content;
+        return $this->client->get($this->sourceUrl, $options)->getBody();
     }
 
     /**

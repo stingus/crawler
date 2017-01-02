@@ -2,6 +2,8 @@
 
 namespace Stingus\Crawler\Exchange;
 
+use Stingus\Crawler\Exceptions\Exchange\InvalidExchangeRateValueException;
+
 /**
  * Class InforeuroCrawler.
  * Crawler for Inforeuro exchange rate
@@ -15,6 +17,7 @@ class InforeuroCrawler extends ExchangeCrawler
     /**
      * @inheritDoc
      * @throws \RuntimeException
+     * @throws InvalidExchangeRateValueException
      */
     public function crawl()
     {
@@ -32,6 +35,11 @@ class InforeuroCrawler extends ExchangeCrawler
                 && array_key_exists('value', $rateElement)
                 && $rateElement['isoA2Code'] === 'RO'
             ) {
+                if (!preg_match('/\d+/', $rateElement['value'])) {
+                    throw new InvalidExchangeRateValueException(
+                        sprintf('Invalid value for currency %s and crawler %s', 'Inforeuro', get_class($this))
+                    );
+                }
                 $rateCollection->offsetSet(self::INFOREURO_ABBR, (float)$rateElement['value']);
                 $rateFound = true;
                 break;
