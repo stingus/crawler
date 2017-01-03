@@ -3,9 +3,7 @@
 [![Test Coverage](https://codeclimate.com/github/stingus/crawler/badges/coverage.svg)](https://codeclimate.com/github/stingus/crawler/coverage)
 
 # Crawler
-This application crawls for RON (New Romanian Leu) exchange rates from National Bank of Romania (NBR) and UE's Inforeuro.
-
-Coming soon: weather station crawling!
+This application crawls for RON (New Romanian Leu) exchange rates and weather conditions from Yahoo Weather.
 
 ## Installation
 `git clone` this repository and run `./composer install` afterwards.
