@@ -14,7 +14,9 @@
 >
     <filter>
         <whitelist>
-            <directory>./src/</directory>
+            <directory>./src/Crawler/</directory>
+            <directory>./src/Exchange/</directory>
+            <directory>./src/Weather/</directory>
         </whitelist>
     </filter>
     <testsuites>
