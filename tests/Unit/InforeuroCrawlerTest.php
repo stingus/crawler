@@ -16,7 +16,7 @@ class InforeuroCrawlerTest extends TestCase
 
     public function testInforeuroCrawlerValidData()
     {
-        $inforeuroCrawler = new InforeuroCrawler('');
+        $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_valid.json');
         $inforeuroCrawler
             ->setDomCrawler(new DomCrawler())
@@ -27,7 +27,7 @@ class InforeuroCrawlerTest extends TestCase
 
     public function testInforeuroCrawlerEmptyDate()
     {
-        $inforeuroCrawler = new InforeuroCrawler('');
+        $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_valid.json');
         $inforeuroCrawler
             ->setDomCrawler(new DomCrawler())
@@ -42,7 +42,7 @@ class InforeuroCrawlerTest extends TestCase
      */
     public function testInforeuroCrawlerInvalidData()
     {
-        $inforeuroCrawler = new InforeuroCrawler('');
+        $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_invalid.json');
         $inforeuroCrawler
             ->setDomCrawler(new DomCrawler())
@@ -56,7 +56,7 @@ class InforeuroCrawlerTest extends TestCase
      */
     public function testInforeuroCrawlerNoCountry()
     {
-        $inforeuroCrawler = new InforeuroCrawler('');
+        $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_invalid_no_country.json');
         $inforeuroCrawler
             ->setDomCrawler(new DomCrawler())
@@ -70,7 +70,7 @@ class InforeuroCrawlerTest extends TestCase
      */
     public function testInforeuroCrawlerMissingCountry()
     {
-        $inforeuroCrawler = new InforeuroCrawler('');
+        $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_invalid_missing_country.json');
         $inforeuroCrawler
             ->setDomCrawler(new DomCrawler())
@@ -84,7 +84,7 @@ class InforeuroCrawlerTest extends TestCase
      */
     public function testInforeuroCrawlerNoValue()
     {
-        $inforeuroCrawler = new InforeuroCrawler('');
+        $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_invalid_no_value.json');
         $inforeuroCrawler
             ->setDomCrawler(new DomCrawler())
@@ -98,7 +98,7 @@ class InforeuroCrawlerTest extends TestCase
      */
     public function testInforeuroCrawlerInvalidValue()
     {
-        $inforeuroCrawler = new InforeuroCrawler('');
+        $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_invalid_value.json');
         $inforeuroCrawler
             ->setDomCrawler(new DomCrawler())

@@ -17,7 +17,7 @@ class NbrCrawlerTest extends TestCase
 
     public function testNbrCrawlerValidData()
     {
-        $nbrCrawler = new NbrCrawler('');
+        $nbrCrawler = new NbrCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/nbr_valid.xml');
         $nbrCrawler
             ->setDomCrawler(new DomCrawler())
@@ -28,7 +28,7 @@ class NbrCrawlerTest extends TestCase
 
     public function testNbrCrawlerHasDate()
     {
-        $nbrCrawler = new NbrCrawler('');
+        $nbrCrawler = new NbrCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/nbr_valid.xml');
         $nbrCrawler
             ->setDomCrawler(new DomCrawler())
@@ -39,7 +39,7 @@ class NbrCrawlerTest extends TestCase
 
     public function testNbrCrawlerInvalidData()
     {
-        $nbrCrawler = new NbrCrawler('');
+        $nbrCrawler = new NbrCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/nbr_valid_empty.xml');
         $nbrCrawler
             ->setDomCrawler(new DomCrawler())
@@ -54,7 +54,7 @@ class NbrCrawlerTest extends TestCase
      */
     public function testNbrCrawlerInvalidValue()
     {
-        $nbrCrawler = new NbrCrawler('');
+        $nbrCrawler = new NbrCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/nbr_invalid_value.xml');
         $nbrCrawler
             ->setDomCrawler(new DomCrawler())
@@ -68,24 +68,8 @@ class NbrCrawlerTest extends TestCase
      */
     public function testNbrCrawlerInvalidDate()
     {
-        $nbrCrawler = new NbrCrawler('');
+        $nbrCrawler = new NbrCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/nbr_invalid_date.xml');
-        $nbrCrawler
-            ->setDomCrawler(new DomCrawler())
-            ->setClient($client);
-        $nbrCrawler->crawl();
-    }
-
-    /**
-     * @dataProvider errorStatusCodeProvider
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     *
-     * @param $responseCode
-     */
-    public function testNbrCrawlerStatusCodeError($responseCode)
-    {
-        $client = $this->getMockClient($responseCode);
-        $nbrCrawler = new NbrCrawler('');
         $nbrCrawler
             ->setDomCrawler(new DomCrawler())
             ->setClient($client);
@@ -130,30 +114,5 @@ class NbrCrawlerTest extends TestCase
             'XDR' => 29.0000,
             'ZAR' => 30.0000,
         ]);
-    }
-
-    /**
-     * @return array
-     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
-     */
-    public function errorStatusCodeProvider()
-    {
-        return [
-            [400],
-            [401],
-            [403],
-            [404],
-            [405],
-            [406],
-            [408],
-            [409],
-            [410],
-            [429],
-            [500],
-            [501],
-            [502],
-            [503],
-            [504],
-        ];
     }
 }

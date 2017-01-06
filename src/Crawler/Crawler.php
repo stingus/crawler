@@ -3,6 +3,7 @@
 namespace Stingus\Crawler\Crawler;
 
 use GuzzleHttp\Client;
+use Stingus\Crawler\Exceptions\InvalidCrawlerUrlException;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 
 /**
@@ -26,9 +27,16 @@ abstract class Crawler
      * Crawler constructor.
      *
      * @param $sourceUrl
+     *
+     * @throws InvalidCrawlerUrlException
      */
     public function __construct($sourceUrl)
     {
+        if (!filter_var($sourceUrl, FILTER_VALIDATE_URL)
+            || !preg_match('/http|https/', parse_url($sourceUrl, PHP_URL_SCHEME))
+        ) {
+            throw new InvalidCrawlerUrlException(sprintf('Invalid source URL %s', $sourceUrl));
+        }
         $this->sourceUrl = $sourceUrl;
     }
 

@@ -167,7 +167,7 @@ class WeatherTest extends TestCase
         $crawlerMock1 = $this
             ->getMockBuilder(WeatherCrawler::class)
             ->setMockClassName('WeatherCrawler1')
-            ->setConstructorArgs(['', 'C', []])
+            ->setConstructorArgs(['http://example.com', 'C', []])
             ->setMethods(['crawl', 'getStationsStatus'])
             ->getMock();
         $crawlerMock1
@@ -182,7 +182,7 @@ class WeatherTest extends TestCase
         $crawlerMock2 = $this
             ->getMockBuilder(WeatherCrawler::class)
             ->setMockClassName('WeatherCrawler2')
-            ->setConstructorArgs(['', 'C', []])
+            ->setConstructorArgs(['http://example.com', 'C', []])
             ->setMethods(['crawl', 'getStationsStatus'])
             ->getMock();
         $crawlerMock2
@@ -217,7 +217,7 @@ class WeatherTest extends TestCase
     {
         return $this
             ->getMockBuilder(WeatherCrawler::class)
-            ->setConstructorArgs(['', 'C', []])
+            ->setConstructorArgs(['http://example.com', 'C', []])
             ->setMethods(['crawl'])
             ->getMock();
     }

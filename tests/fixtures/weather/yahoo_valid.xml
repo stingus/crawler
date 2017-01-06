@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" yahoo:count="1" yahoo:created="2017-01-06T08:05:19Z" yahoo:lang="en-us">
+    <results>
+        <channel>
+            <yweather:units xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" distance="km" pressure="mb" speed="km/h" temperature="C"/>
+            <lastBuildDate>Fri, 06 Jan 2017 10:05 AM EET</lastBuildDate>
+            <yweather:location xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" city="City" country="Country" region="Region"/>
+            <yweather:wind xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" chill="12" direction="25" speed="104.60"/>
+            <yweather:atmosphere xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" humidity="96" pressure="33965.49" rising="0" visibility="7.40"/>
+            <yweather:astronomy xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" sunrise="7:41 am" sunset="4:43 pm"/>
+            <item>
+                <geo:lat xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">44.176949</geo:lat>
+                <geo:long xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">28.653219</geo:long>
+                <yweather:condition xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="15" date="Fri, 06 Jan 2017 09:00 AM EET" temp="-1" text="Blowing Snow"/>
+                <yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="5" date="06 Jan 2017" day="Fri" high="4" low="-6" text="Rain And Snow"/>
+                <yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="15" date="07 Jan 2017" day="Sat" high="-7" low="-12" text="Blowing Snow"/>
+                <yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="23" date="08 Jan 2017" day="Sun" high="-10" low="-11" text="Breezy"/>
+                <yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="28" date="09 Jan 2017" day="Mon" high="-10" low="-13" text="Mostly Cloudy"/>
+                <yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="28" date="10 Jan 2017" day="Tue" high="-11" low="-15" text="Mostly Cloudy"/>
+                <yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="28" date="11 Jan 2017" day="Wed" high="-11" low="-16" text="Mostly Cloudy"/>
+                <yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="28" date="12 Jan 2017" day="Thu" high="-5" low="-12" text="Mostly Cloudy"/>
+                <yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="30" date="13 Jan 2017" day="Fri" high="2" low="-5" text="Partly Cloudy"/>
+                <yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="23" date="14 Jan 2017" day="Sat" high="5" low="0" text="Breezy"/>
+                <yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="28" date="15 Jan 2017" day="Sun" high="1" low="-3" text="Mostly Cloudy"/>
+            </item>
+        </channel>
+    </results>
+</query>

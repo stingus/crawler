@@ -3,6 +3,7 @@
 namespace Stingus\Crawler\Weather;
 
 use Stingus\Crawler\Crawler\Crawler;
+use Stingus\Crawler\Exceptions\Weather\InvalidWeatherUnitException;
 
 /**
  * Class WeatherCrawler
@@ -24,11 +25,16 @@ abstract class WeatherCrawler extends Crawler
      * WeatherCrawler constructor.
      *
      * @param string $sourceUrl Source URL
-     * @param string $unit      Units (C or F)
-     * @param array  $stations  Weather stations
+     * @param string $unit Units (C or F)
+     * @param array  $stations Weather stations
+     *
+     * @throws InvalidWeatherUnitException
      */
     public function __construct($sourceUrl, $unit, array $stations)
     {
+        if (!preg_match('/C|F/', $unit)) {
+            throw new InvalidWeatherUnitException(sprintf('Weather unit %s is invalid', $unit));
+        }
         $this->unit = $unit;
         $this->stations = $stations;
         $this->stationsStatus = [];
