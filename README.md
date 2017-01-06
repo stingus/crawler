@@ -50,7 +50,8 @@ weather:
     url: 'http://query.yahooapis.com/v1/public/yql'
     stations: [868274]
 ```
-For now, only Yahoo Weather is available, tough other sources could be easily added.
+For now, only Yahoo Weather is available, tough other sources could be easily added. It provides geolocation for the
+selected WOEID, sunset, sunrise and a 10-day forecast.
 
 For units you can use 'C' for Celsius or 'F' for Fahrenheit. For Yahoo Weather, stations are WOEID identifiers, which
 can be found using the [official documentation](https://developer.yahoo.com/weather/documentation.html) or using this
@@ -61,7 +62,15 @@ The WOEID in the example configuration is for Bucharest, Romania.
 ## Usage
 For exchange rates, run the `bin/exchange` command and for weather run `bin/weather`.
 The application checks if the DB schema is in place and it creates it if required.
-The data is stored in the `exchange` and `weather` tables. You might want to use a cron to run the scripts daily.
+The data is stored in the `exchange` and `weather` tables.
+
+You might want to use a cron to run the scripts. For the exchange rates, it's recommended to run the crawler after
+11am UTC, when the NBR updates the numbers. The weather crawler can be ran on an hourly basis.
+
+#### Some tips on weather
+Yahoo Weather uses weather codes to describe the condition. There is a table called `weather_codes` with the code and
+the description. You can easily join the weather codes in the `weather` table with `weather_codes` to get a human
+readable weather condition.
 
 ## Schema migration
 The application maintains the schema automatically, by checking if the schema is valid before each run.
