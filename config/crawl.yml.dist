@@ -1,4 +1,11 @@
 crawl:
+  notification:
+    email: <your_email>
+    smtp_host: <your_smtp_server>
+    smtp_port: <your_smtp_port>
+    smtp_user: <optional_smtp_username>
+    smtp_password: <optional_smtp_password>
+    smtp_from: <your_from_email>
   storage:
     mysql:
       host: 127.0.0.1
@@ -6,6 +13,7 @@ crawl:
       user: crawler
       password: ~
   exchange:
+    notification: false
     sources:
     -
       class: 'Stingus\Crawler\Exchange\NbrCrawler'
@@ -14,6 +22,7 @@ crawl:
       class: 'Stingus\Crawler\Exchange\InforeuroCrawler'
       url: 'http://ec.europa.eu/budg/inforeuro/api/public/monthly-rates'
   weather:
+    notification: false
     unit: 'C'
     sources:
     -

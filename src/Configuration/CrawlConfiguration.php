@@ -16,7 +16,6 @@ class CrawlConfiguration implements ConfigurationInterface
 {
     /**
      * @inheritDoc
-     * @throws \RuntimeException
      */
     public function getConfigTreeBuilder()
     {
@@ -25,6 +24,9 @@ class CrawlConfiguration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->append($this->addNotificationNode())
+            ->end()
+            ->children()
                 ->append($this->addStorageNode())
             ->end()
             ->children()
@@ -32,17 +34,38 @@ class CrawlConfiguration implements ConfigurationInterface
             ->end()
             ->children()
                 ->append($this->addWeatherNode())
-            ->end()
-        ;
+            ->end();
 
         return $treeBuilder;
+    }
+
+    /**
+     * Config notification section
+     *
+     * @return ArrayNodeDefinition|NodeDefinition
+     */
+    private function addNotificationNode()
+    {
+        $builder = new TreeBuilder();
+        $node = $builder->root('notification');
+
+        $node
+            ->children()
+                ->scalarNode('email')->isRequired()->defaultNull()->end()
+                ->scalarNode('smtp_host')->isRequired()->defaultNull()->end()
+                ->scalarNode('smtp_port')->isRequired()->defaultValue(25)->end()
+                ->scalarNode('smtp_user')->defaultNull()->end()
+                ->scalarNode('smtp_password')->defaultNull()->end()
+                ->scalarNode('smtp_from')->defaultNull()->end()
+            ->end();
+
+        return $node;
     }
 
     /**
      * Config storage section
      *
      * @return ArrayNodeDefinition|NodeDefinition
-     * @throws \RuntimeException
      */
     private function addStorageNode()
     {
@@ -51,7 +74,7 @@ class CrawlConfiguration implements ConfigurationInterface
 
         $node
             ->children()
-                ->arrayNode('mysql')
+                ->arrayNode('mysql')->isRequired()
                     ->children()
                         ->scalarNode('host')->defaultValue('127.0.0.1')->end()
                         ->scalarNode('db')->defaultValue('crawler')->end()
@@ -68,7 +91,6 @@ class CrawlConfiguration implements ConfigurationInterface
      * Config exchange section
      *
      * @return ArrayNodeDefinition|NodeDefinition
-     * @throws \RuntimeException
      */
     private function addExchangeNode()
     {
@@ -77,11 +99,12 @@ class CrawlConfiguration implements ConfigurationInterface
 
         $node
             ->children()
-                ->arrayNode('sources')->requiresAtLeastOneElement()
+                ->booleanNode('notification')->defaultFalse()->end()
+                ->arrayNode('sources')->isRequired()->requiresAtLeastOneElement()
                     ->prototype('array')
                         ->children()
-                            ->scalarNode('class')->end()
-                            ->scalarNode('url')->end()
+                            ->scalarNode('class')->isRequired()->end()
+                            ->scalarNode('url')->isRequired()->end()
                         ->end()
                     ->end()
                 ->end()
@@ -94,7 +117,6 @@ class CrawlConfiguration implements ConfigurationInterface
      * Config weather section
      *
      * @return ArrayNodeDefinition|NodeDefinition
-     * @throws \RuntimeException
      */
     private function addWeatherNode()
     {
@@ -103,15 +125,14 @@ class CrawlConfiguration implements ConfigurationInterface
 
         $node
             ->children()
-                ->enumNode('unit')
-                    ->values(['C', 'F'])
-                ->end()
-                ->arrayNode('sources')->requiresAtLeastOneElement()
+                ->booleanNode('notification')->defaultFalse()->end()
+                ->enumNode('unit')->isRequired()->values(['C', 'F'])->end()
+                ->arrayNode('sources')->isRequired()->requiresAtLeastOneElement()
                     ->prototype('array')
                         ->children()
-                            ->scalarNode('class')->end()
-                            ->scalarNode('url')->end()
-                            ->arrayNode('stations')
+                            ->scalarNode('class')->isRequired()->end()
+                            ->scalarNode('url')->isRequired()->end()
+                            ->arrayNode('stations')->isRequired()->requiresAtLeastOneElement()
                                 ->prototype('scalar')->end()
                             ->end()
                         ->end()

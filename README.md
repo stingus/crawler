@@ -82,6 +82,6 @@ If you'd like to check for schema updates, independent of the crawling process, 
 *Don't alter or change in any way the `version` table! Doing so will render the schema migration system useless!*
 
 ## Tests
-You can run the tests using `vendor/bin/phpunit` command. More tests are on the way (unit and functional).
+You can run the tests using `vendor/bin/phpunit` command.
 
 #Happy crawling!

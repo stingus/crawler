@@ -15,6 +15,7 @@
     <filter>
         <whitelist>
             <directory>./src/Exceptions/</directory>
+            <directory>./src/Notification/</directory>
             <directory>./src/Crawler/</directory>
             <directory>./src/Exchange/</directory>
             <directory>./src/Weather/</directory>

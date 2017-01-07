@@ -20,7 +20,6 @@ class WeatherCommand extends CrawlCommand
 {
     /**
      * @inheritdoc
-     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
      */
     protected function configure()
     {
@@ -32,56 +31,61 @@ class WeatherCommand extends CrawlCommand
 
     /**
      * @inheritdoc
-     * @throws \Symfony\Component\Console\Exception\CommandNotFoundException
-     * @throws \Symfony\Component\Yaml\Exception\ParseException
-     * @throws \InvalidArgumentException
-     * @throws \PDOException
-     * @throws \RuntimeException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // Execute migrations first
-        $this->checkMigrations($output);
-
         $config = $this->getConfig();
-        $output->writeln(sprintf('Starting the weather crawl on %s', date('d/m/y H:i:s')));
-        $weather = new Weather(new Crawler(), new Client());
+        try {
+            // Execute migrations first
+            $this->checkMigrations($output);
 
-        /** @var array $sources */
-        $sources = $config['weather']['sources'];
-        foreach ($sources as $source) {
-            $weather->registerCrawler(
-                new $source['class']($source['url'], $config['weather']['unit'], $source['stations'])
-            );
-        }
+            $output->writeln(sprintf('Starting the weather crawl on %s', date('d/m/y H:i:s')));
+            $weather = new Weather(new Crawler(), new Client());
 
-        $result = $weather->crawl();
-        $statusSuccess = $weather->getCrawlerStatus(true);
-        $statusFail = $weather->getCrawlerStatus(false);
-
-        if (count($statusSuccess) > 0) {
-            $output->writeln('<info>Successful stations:</info>');
-            foreach ($statusSuccess as $successCrawler => $successStations) {
-                $output->writeln("\t" . $successCrawler . ': ' . implode(', ', $successStations));
+            /** @var array $sources */
+            $sources = $config['weather']['sources'];
+            foreach ($sources as $source) {
+                $weather->registerCrawler(
+                    new $source['class']($source['url'], $config['weather']['unit'], $source['stations'])
+                );
             }
-        }
 
-        if (count($statusFail) > 0) {
-            $output->writeln('<error>Failed stations:</error>');
-            foreach ($statusFail as $failCrawler => $failStations) {
-                $output->writeln("\t" . $failCrawler . ': ' . implode(', ', $failStations));
+            $result = $weather->crawl();
+            $statusSuccess = $weather->getCrawlerStatus(true);
+            $statusFail = $weather->getCrawlerStatus(false);
+
+            if (count($statusSuccess) > 0) {
+                $output->writeln('<info>Successful stations:</info>');
+                foreach ($statusSuccess as $successCrawler => $successStations) {
+                    $output->writeln("\t" . $successCrawler . ': ' . implode(', ', $successStations));
+                }
             }
-        }
 
-        $output->writeln(sprintf('Fetched %s weather stations', count($result)));
+            if (count($statusFail) > 0) {
+                $errorMessage = 'The following weather stations failed to provide data:' . PHP_EOL;
+                $output->writeln('<error>Failed stations:</error>');
+                foreach ($statusFail as $failCrawler => $failStations) {
+                    $errorLine = $failCrawler . ': ' . implode(', ', $failStations);
+                    $output->writeln("\t" . $errorLine);
+                    $errorMessage .= $errorLine . PHP_EOL;
+                }
+                $this->sendErrorNotification('weather', $errorMessage);
+            }
 
-        if (count($result) > 0) {
-            $mysql = new MySqlConnection($config['storage']['mysql']);
+            $output->writeln(sprintf('Fetched %s weather stations', count($result)));
 
-            $weatherStorage = new WeatherStorage($mysql);
-            $output->write('Saving... ');
-            $weatherStorage->save($result);
-            $output->writeln('<info>done</info>');
+            if (count($result) > 0) {
+                $mysql = new MySqlConnection($config['storage']['mysql']);
+
+                $weatherStorage = new WeatherStorage($mysql);
+                $output->write('Saving... ');
+                $weatherStorage->save($result);
+                $output->writeln('<info>done</info>');
+            }
+        } catch (\Exception $e) {
+            $this->sendErrorNotification('weather', $e->getMessage());
+
+            throw $e;
         }
     }
 }

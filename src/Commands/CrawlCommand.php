@@ -3,6 +3,8 @@
 namespace Stingus\Crawler\Commands;
 
 use Stingus\Crawler\Configuration\CrawlConfiguration;
+use Stingus\Crawler\Notification\EmailProvider;
+use Stingus\Crawler\Notification\Notification;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -17,9 +19,11 @@ use Symfony\Component\Yaml\Yaml;
  */
 abstract class CrawlCommand extends Command
 {
+    /** @var EmailProvider */
+    private $emailProvider;
+
     /**
      * @return array
-     * @throws \Symfony\Component\Yaml\Exception\ParseException
      */
     public function getConfig()
     {
@@ -32,12 +36,57 @@ abstract class CrawlCommand extends Command
      * Check migrations command
      *
      * @param OutputInterface $output
-     *
-     * @throws \Symfony\Component\Console\Exception\CommandNotFoundException
      */
     protected function checkMigrations(OutputInterface $output)
     {
         $migrationCommand = $this->getApplication()->find('crawl:migrations');
         $migrationCommand->run(new ArrayInput([]), $output);
+    }
+
+    /**
+     * Send an error notification
+     *
+     * @param string $crawler Crawler config key
+     * @param string $message Error message
+     */
+    protected function sendErrorNotification($crawler, $message)
+    {
+        $config = $this->getConfig();
+
+        if (array_key_exists('notification', $config[$crawler])
+            && true === $config[$crawler]['notification']
+            && (($emailProvider = $this->getEmailProvider()) instanceof EmailProvider)
+        ) {
+            $notification = new Notification($emailProvider);
+            $notification
+                ->setSubject(sprintf('%s crawler exception', ucfirst($crawler)))
+                ->setBody($message)
+                ->send();
+        }
+    }
+
+    /**
+     * Setup the email provider
+     *
+     * @return EmailProvider|null
+     */
+    private function getEmailProvider()
+    {
+        if ($this->emailProvider instanceof EmailProvider) {
+            return $this->emailProvider;
+        }
+        $config = $this->getConfig()['notification'];
+        if (null !== $config) {
+            $transport = new \Swift_SmtpTransport($config['smtp_host'], $config['smtp_port']);
+            $transport
+                ->setUsername($config['smtp_user'])
+                ->setPassword($config['smtp_password']);
+            $mailer = new \Swift_Mailer($transport);
+            $this->emailProvider = $mailer;
+
+            return new EmailProvider($mailer, $config['email'], $config['smtp_from']);
+        }
+
+        return null;
     }
 }

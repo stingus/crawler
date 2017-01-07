@@ -17,7 +17,6 @@ class MigrationCommand extends CrawlCommand
 {
     /**
      * @inheritdoc
-     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
      */
     protected function configure()
     {
@@ -29,8 +28,6 @@ class MigrationCommand extends CrawlCommand
 
     /**
      * @inheritdoc
-     * @throws \Symfony\Component\Yaml\Exception\ParseException
-     * @throws \RuntimeException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
