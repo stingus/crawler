@@ -15,26 +15,29 @@ In the `config` directory, copy / paste the contents from `crawl.yml.dist` into 
 For now, data can be persisted in a MySQL database. Make sure to fill in the configuration the appropriate values for
 your environment:
 ```yaml
-storage:
-  mysql:
-    host: 127.0.0.1
-    db: crawler
-    user: crawler
-    password: ~
+crawl:
+  storage:
+    mysql:
+      host: 127.0.0.1
+      db: crawler
+      user: crawler
+      password: ~
 ```
 You just need to create the database, the tables are automatically maintained by the application (see Migrations below).
 
 ### Exchange section
 Data sources for exchange rates are configured through this section:
 ```yaml
-exchange:
-  sources:
-  -
-    class: 'Stingus\Crawler\Exchange\NbrCrawler'
-    url: 'http://www.bnro.ro/nbrfxrates.xml'
-  -
-    class: 'Stingus\Crawler\Exchange\InforeuroCrawler'
-    url: 'http://ec.europa.eu/budg/inforeuro/api/public/monthly-rates'
+crawl:
+  exchange:
+    notification: false
+    sources:
+    -
+      class: 'Stingus\Crawler\Exchange\NbrCrawler'
+      url: 'http://www.bnro.ro/nbrfxrates.xml'
+    -
+      class: 'Stingus\Crawler\Exchange\InforeuroCrawler'
+      url: 'http://ec.europa.eu/budg/inforeuro/api/public/monthly-rates'
 ```
 If you'd like to skip the Inforeuro exchange rate from crawling, remove the entry from the config. The NBR crawler
 MUST be left in place, because it provides the reference date for each crawl.
@@ -42,13 +45,15 @@ MUST be left in place, because it provides the reference date for each crawl.
 ### Weather section
 Data sources for weather are configured through this section:
 ```yaml
-weather:
-  unit: 'C'
-  sources:
-  -
-    class: 'Stingus\Crawler\Weather\YahooCrawler'
-    url: 'http://query.yahooapis.com/v1/public/yql'
-    stations: [868274]
+crawl:
+  weather:
+    notification: false
+    unit: 'C'
+    sources:
+    -
+      class: 'Stingus\Crawler\Weather\YahooCrawler'
+      url: 'http://query.yahooapis.com/v1/public/yql'
+      stations: [868274]
 ```
 For now, only Yahoo Weather is available, tough other sources could be easily added. It provides geolocation for the
 selected WOEID, sunset, sunrise and a 10-day forecast.
@@ -58,6 +63,30 @@ can be found using the [official documentation](https://developer.yahoo.com/weat
 [3rd party tool](http://woeid.rosselliot.co.nz/). In brief, you can search for a location on
 [Yahoo Weather](https://www.yahoo.com/news/weather/) and your WOEID is the last integer part of the URL.
 The WOEID in the example configuration is for Bucharest, Romania.
+
+### Notification section
+If you'd like to receive error notifications when running the crawlers, you can setup the system in this config section:
+```yaml
+crawl:
+  notification:
+    email: <your_email>
+    smtp_host: <your_smtp_server>
+    smtp_port: <your_smtp_port>
+    smtp_user: <optional_smtp_username>
+    smtp_password: <optional_smtp_password>
+    smtp_from: <your_from_email>
+```
+You'll also need to enable the notifications on each crawler section:
+```yaml
+crawl:
+  ...
+  exchange:
+    notification: true
+    ...
+  weather:
+    notification: true
+```
+You can disable the notification per crawler section or entirely, by removing the whole `notification ` section. 
 
 ## Usage
 For exchange rates, run the `bin/exchange` command and for weather run `bin/weather`.
