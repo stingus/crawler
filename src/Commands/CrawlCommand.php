@@ -75,16 +75,17 @@ abstract class CrawlCommand extends Command
         if ($this->emailProvider instanceof EmailProvider) {
             return $this->emailProvider;
         }
-        $config = $this->getConfig()['notification'];
-        if (null !== $config) {
-            $transport = new \Swift_SmtpTransport($config['smtp_host'], $config['smtp_port']);
+        $config = $this->getConfig();
+        if (array_key_exists('notification', $config)) {
+            $notificationConfig = $config['notification'];
+            $transport = new \Swift_SmtpTransport($notificationConfig['smtp_host'], $notificationConfig['smtp_port']);
             $transport
-                ->setUsername($config['smtp_user'])
-                ->setPassword($config['smtp_password']);
+                ->setUsername($notificationConfig['smtp_user'])
+                ->setPassword($notificationConfig['smtp_password']);
             $mailer = new \Swift_Mailer($transport);
             $this->emailProvider = $mailer;
 
-            return new EmailProvider($mailer, $config['email'], $config['smtp_from']);
+            return new EmailProvider($mailer, $notificationConfig['email'], $notificationConfig['smtp_from']);
         }
 
         return null;
