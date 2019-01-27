@@ -46,7 +46,13 @@ class WeatherCommand extends CrawlCommand
             $sources = $config['weather']['sources'];
             foreach ($sources as $source) {
                 $weather->registerCrawler(
-                    new $source['class']($source['url'], $config['weather']['unit'], $source['stations'])
+                    new $source['class'](
+                        $source['url'],
+                        $config['weather']['unit'],
+                        $source['stations'],
+                        $source['apiKey'],
+                        $source['lang']
+                    )
                 );
             }
 

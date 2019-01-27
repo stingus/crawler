@@ -132,6 +132,8 @@ class CrawlConfiguration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('class')->isRequired()->end()
                             ->scalarNode('url')->isRequired()->end()
+                            ->scalarNode('lang')->end()
+                            ->scalarNode('apiKey')->end()
                             ->arrayNode('stations')->isRequired()->requiresAtLeastOneElement()
                                 ->prototype('scalar')->end()
                             ->end()

@@ -5,6 +5,7 @@ namespace Stingus\Crawler\Test\Unit;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 
 /**
@@ -15,12 +16,13 @@ use GuzzleHttp\Psr7\Response;
 trait MockClientTrait
 {
     /**
-     * @param $responseCode
-     * @param $file
+     * @param int    $responseCode
+     * @param string $file
+     * @param array  $container
      *
      * @return Client
      */
-    private function getMockClient($responseCode, $file = null)
+    private function getMockClient($responseCode, $file = null, &$container = [])
     {
         $content = null;
         if (null !== $file) {
@@ -31,8 +33,10 @@ trait MockClientTrait
                 new Response($responseCode, [], $content),
             ]
         );
-        $handler = HandlerStack::create($mock);
+        $history = Middleware::history($container);
+        $stack = HandlerStack::create($mock);
+        $stack->push($history);
 
-        return new Client(['handler' => $handler]);
+        return new Client(['handler' => $stack]);
     }
 }
