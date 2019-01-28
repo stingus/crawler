@@ -132,47 +132,60 @@ class OpenWeatherCrawler extends WeatherCrawler
      */
     private function getTempHighLow($forecasts)
     {
-        $today = new \DateTime();
-        $today->setTime(0, 0);
-
         $tempHighLow = [];
+        $offset = 0;
 
         /** @var \DOMElement $forecast */
         foreach ($forecasts->children() as $forecast) {
             $dt = new \DateTime($forecast->getAttribute('from'));
-            $offset = $dt->diff($today)->days;
+            $dt0 = clone $dt;
+            $dt0->setTime(0, 0);
+            if (!isset($prevDt)) {
+                $prevDt = clone $dt0;
+            }
+            if ($prevDt->getTimestamp() !== $dt0->getTimestamp()) {
+                $offset++;
+                $prevDt = clone $dt0;
+            }
             if ($offset >= static::MAX_DAYS_FORECAST) {
                 break;
             }
 
-            $dt0 = clone $dt;
-            $dt0->setTime(0, 0);
             $tempHighLowDay = &$tempHighLow[$offset];
             $tempHighLowDay['date'] = $dt0;
 
-            // Get code from 12pm onward
-            if (!array_key_exists('code', $tempHighLowDay) && 12 <= (int) $dt->format('H')) {
-                $symbol = $forecast->getElementsByTagName('symbol')->item(0);
-                $tempHighLowDay['code'] = (int) $symbol->getAttribute('number');
-                $tempHighLowDay['icon'] = $symbol->getAttribute('var');
-                $tempHighLowDay['descr'] = $symbol->getAttribute('name');
-            }
-
-            $temp = (int) round($forecast->getElementsByTagName('temperature')->item(0)->getAttribute('value'));
-
-            if (!array_key_exists('high', $tempHighLowDay)
-                || (array_key_exists('high', $tempHighLowDay) && $temp > $tempHighLowDay['high'])
-            ) {
-                $tempHighLowDay['high'] = $temp;
-            }
-            if (!array_key_exists('low', $tempHighLowDay)
-                || (array_key_exists('low', $tempHighLowDay) && $temp < $tempHighLowDay['low'])
-            ) {
-                $tempHighLowDay['low'] = $temp;
-            }
+            $this->setForecastWeather($forecast, $dt, $tempHighLowDay);
         }
 
         return $tempHighLow;
+    }
+
+    /**
+     * @param \DOMElement $forecast
+     * @param \DateTime   $dt
+     * @param array       $tempHighLowDay
+     */
+    private function setForecastWeather(\DOMElement $forecast, \DateTime $dt, array &$tempHighLowDay)
+    {
+        if (!array_key_exists('code', $tempHighLowDay) && 12 <= (int) $dt->format('H')) {
+            $symbol = $forecast->getElementsByTagName('symbol')->item(0);
+            $tempHighLowDay['code'] = (int) $symbol->getAttribute('number');
+            $tempHighLowDay['icon'] = $symbol->getAttribute('var');
+            $tempHighLowDay['descr'] = $symbol->getAttribute('name');
+        }
+
+        $temp = (int) round($forecast->getElementsByTagName('temperature')->item(0)->getAttribute('value'));
+
+        if (!array_key_exists('high', $tempHighLowDay)
+            || (array_key_exists('high', $tempHighLowDay) && $temp > $tempHighLowDay['high'])
+        ) {
+            $tempHighLowDay['high'] = $temp;
+        }
+        if (!array_key_exists('low', $tempHighLowDay)
+            || (array_key_exists('low', $tempHighLowDay) && $temp < $tempHighLowDay['low'])
+        ) {
+            $tempHighLowDay['low'] = $temp;
+        }
     }
 
     /**
