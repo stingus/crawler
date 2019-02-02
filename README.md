@@ -3,7 +3,7 @@
 [![Test Coverage](https://codeclimate.com/github/stingus/crawler/badges/coverage.svg)](https://codeclimate.com/github/stingus/crawler/coverage)
 
 # Crawler
-This application crawls for RON (New Romanian Leu) exchange rates and weather conditions from Yahoo Weather.
+This application crawls the Romanian National Bank for RON (Romanian Leu) exchange rates and weather conditions from OpenWeatherMaps.
 
 ## Installation
 `git clone` this repository and run `./composer install` afterwards.
@@ -51,18 +51,21 @@ crawl:
     unit: 'C'
     sources:
     -
-      class: 'Stingus\Crawler\Weather\YahooCrawler'
-      url: 'http://query.yahooapis.com/v1/public/yql'
-      stations: [868274]
+      class: 'Stingus\Crawler\Weather\OpenWeatherCrawler'
+      url: 'http://api.openweathermap.org/data/2.5'
+      stations: [683506]
+      lang: 'en'
+      apiKey: 'abcdef'
 ```
-For now, only Yahoo Weather is available, tough other sources could be easily added. It provides geolocation for the
-selected WOEID, sunset, sunrise and a 10-day forecast.
+[OpenWeatherMaps](https://openweathermap.org) (OWM) is already built-in, but other sources could be easily added.
+It provides geolocation for the selected station IDs, sunset, sunrise, atmospheric pressure, humidity and a 5-day forecast.
 
-For units you can use 'C' for Celsius or 'F' for Fahrenheit. For Yahoo Weather, stations are WOEID identifiers, which
-can be found using the [official documentation](https://developer.yahoo.com/weather/documentation.html) or using this
-[3rd party tool](http://woeid.rosselliot.co.nz/). In brief, you can search for a location on
-[Yahoo Weather](https://www.yahoo.com/news/weather/) and your WOEID is the last integer part of the URL.
-The WOEID in the example configuration is for Bucharest, Romania.
+- For units you can use 'C' for Celsius or 'F' for Fahrenheit
+- You don't need to change the `url` value, it's already set to use the OWM APIs
+- Station IDs can be found [here](http://bulk.openweathermap.org/sample/)
+- You can customize the `lang` parameter with any of the supported [languages](https://openweathermap.org/forecast5#multi).
+This setting will get the weather conditions in the desired language
+- The `apikey` can be obtained from your OWM [account](https://home.openweathermap.org/api_keys)
 
 ### Notification section
 If you'd like to receive error notifications when running the crawlers, you can setup the system in this config section:
@@ -96,11 +99,6 @@ The data is stored in the `exchange` and `weather` tables.
 You might want to use a cron to run the scripts. For the exchange rates, it's recommended to run the crawler after
 11am UTC, when the NBR updates the numbers. The weather crawler can be ran on an hourly basis.
 
-#### Some tips on weather
-Yahoo Weather uses weather codes to describe the condition. There is a table called `weather_codes` with the code and
-the description. You can easily join the weather codes in the `weather` table with `weather_codes` to get a human
-readable weather condition.
-
 ## Schema migration
 The application maintains the schema automatically, by checking if the schema is valid before each run.
 In case a new exchange rate is crawled and a new column is needed, you'll need to update the code repository
@@ -113,4 +111,4 @@ If you'd like to check for schema updates, independent of the crawling process, 
 ## Tests
 You can run the tests using `vendor/bin/phpunit` command.
 
-#Happy crawling!
+#happycrawling!

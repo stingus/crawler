@@ -3,6 +3,7 @@
 namespace Stingus\Crawler\Crawler;
 
 use GuzzleHttp\Client;
+use Psr\Http\Message\StreamInterface;
 use Stingus\Crawler\Exceptions\InvalidCrawlerUrlException;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 
@@ -65,13 +66,14 @@ abstract class Crawler
     }
 
     /**
-     * @param array $options Request options
+     * @param string $path    Path to append to url
+     * @param array  $options Request options
      *
-     * @return string
+     * @return StreamInterface
      */
-    protected function getContent(array $options = array())
+    protected function getContent($path = '', array $options = null)
     {
-        return $this->client->get($this->sourceUrl, $options)->getBody();
+        return $this->client->get($this->sourceUrl . $path, $options)->getBody();
     }
 
     /**

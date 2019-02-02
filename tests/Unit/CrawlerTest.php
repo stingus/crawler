@@ -2,6 +2,7 @@
 
 namespace Stingus\Crawler\Test\Unit;
 
+use GuzzleHttp\Psr7\Request;
 use PHPUnit\Framework\TestCase;
 use Stingus\Crawler\Test\Dummy\DummyCrawler;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
@@ -16,6 +17,7 @@ class CrawlerTest extends TestCase
 
     /**
      * @dataProvider validUrlProvider
+     *
      * @param $url
      */
     public function testValidUrl($url)
@@ -26,6 +28,7 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider invalidUrlProvider
      * @expectedException \Stingus\Crawler\Exceptions\InvalidCrawlerUrlException
+     *
      * @param $url
      */
     public function testInvalidUrl($url)
@@ -47,6 +50,41 @@ class CrawlerTest extends TestCase
             ->setDomCrawler(new DomCrawler())
             ->setClient($client);
         $crawler->crawl();
+    }
+
+    public function testWithPath()
+    {
+        $history = [];
+        $client = $this->getMockClient(200, null, $history);
+        $crawler = new DummyCrawler('http://example.com', '/some/other/path');
+        $crawler
+            ->setDomCrawler(new DomCrawler())
+            ->setClient($client);
+        $crawler->crawl();
+
+        $this->assertCount(1, $history);
+        /** @var Request $request */
+        $request = $history[0]['request'];
+        $this->assertEquals('http://example.com/some/other/path', $request->getUri());
+    }
+
+    public function testWithOptions()
+    {
+        $history = [];
+        $client = $this->getMockClient(200, null, $history);
+        $options = [
+            'query' => ['abc' => '123']
+        ];
+        $crawler = new DummyCrawler('http://example.com', null, $options);
+        $crawler
+            ->setDomCrawler(new DomCrawler())
+            ->setClient($client);
+        $crawler->crawl();
+
+        $this->assertCount(1, $history);
+        /** @var Request $request */
+        $request = $history[0]['request'];
+        $this->assertEquals('http://example.com?abc=123', $request->getUri());
     }
 
     /**

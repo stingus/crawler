@@ -26,6 +26,8 @@ crawl:
     unit: 'C'
     sources:
     -
-      class: 'Stingus\Crawler\Weather\YahooCrawler'
-      url: 'http://query.yahooapis.com/v1/public/yql'
-      stations: [868274]
+      class: 'Stingus\Crawler\Weather\OpenWeatherCrawler'
+      url: 'http://api.openweathermap.org/data/2.5'
+      stations: [<station>, <station>]
+      lang: 'en'
+      apiKey: <apikey>

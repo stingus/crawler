@@ -23,7 +23,7 @@ class MySqlConnection
     public function __construct(array $config)
     {
         try {
-            $dsn = sprintf('mysql:dbname=%s;host=%s', $config['db'], $config['host']);
+            $dsn = sprintf('mysql:dbname=%s;host=%s;charset=utf8', $config['db'], $config['host']);
             $this->dbh = new \PDO(
                 $dsn,
                 $config['user'],
