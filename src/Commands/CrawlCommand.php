@@ -80,11 +80,15 @@ abstract class CrawlCommand extends Command
         $config = $this->getConfig();
         if (array_key_exists('notification', $config)) {
             $notificationConfig = $config['notification'];
-            $transport = new \Swift_SmtpTransport($notificationConfig['smtp_host'], $notificationConfig['smtp_port']);
-            $transport
-                ->setUsername($notificationConfig['smtp_user'])
-                ->setPassword($notificationConfig['smtp_password']);
-            $mailer = new \Swift_Mailer($transport);
+            $dsn = sprintf(
+                'smtp://%s:%s@%s:%d',
+                urlencode($notificationConfig['smtp_user'] ?? ''),
+                urlencode($notificationConfig['smtp_password'] ?? ''),
+                $notificationConfig['smtp_host'],
+                $notificationConfig['smtp_port']
+            );
+            $transport = EsmtpTransport::fromDsn($dsn);
+            $mailer = new Mailer($transport);
             $this->emailProvider = $mailer;
 
             return new EmailProvider($mailer, $notificationConfig['email'], $notificationConfig['smtp_from']);
@@ -93,4 +97,5 @@ abstract class CrawlCommand extends Command
         return null;
     }
 }
+
 
