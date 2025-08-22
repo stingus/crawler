@@ -46,8 +46,8 @@ class CrawlConfiguration implements ConfigurationInterface
      */
     private function addNotificationNode()
     {
-        $builder = new TreeBuilder();
-        $node = $builder->root('notification');
+        $builder = new TreeBuilder('notification');
+        $node = $builder->getRootNode();
 
         $node
             ->children()
@@ -145,4 +145,5 @@ class CrawlConfiguration implements ConfigurationInterface
         return $node;
     }
 }
+
 
