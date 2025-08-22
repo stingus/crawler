@@ -97,11 +97,12 @@ class InforeuroCrawlerTest extends TestCase
     }
 
     /**
-     * @expectedException \Stingus\Crawler\Exceptions\Exchange\InvalidExchangeRateValueException
-     * @expectedExceptionMessageRegExp /Invalid value for currency Inforeuro and crawler [a-zA-Z0-9_]+/
      */
     public function testInforeuroCrawlerInvalidValue()
     {
+        $this->expectException(\Stingus\Crawler\Exceptions\Exchange\InvalidExchangeRateValueException::class);
+        $this->expectExceptionMessageMatches('/Invalid value for currency Inforeuro and crawler [a-zA-Z0-9_]+/');
+        
         $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_invalid_value.json');
         $inforeuroCrawler
@@ -120,6 +121,7 @@ class InforeuroCrawlerTest extends TestCase
         ]);
     }
 }
+
 
 
 
