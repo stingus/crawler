@@ -39,12 +39,13 @@ class CrawlerTest extends TestCase
 
     /**
      * @dataProvider errorStatusCodeProvider
-     * @expectedException \GuzzleHttp\Exception\RequestException
      *
      * @param $responseCode
      */
     public function testNbrCrawlerStatusCodeError($responseCode)
     {
+        $this->expectException(\GuzzleHttp\Exception\RequestException::class);
+        
         $client = $this->getMockClient($responseCode);
         $crawler = new DummyCrawler('http://example.com');
         $crawler
@@ -150,4 +151,5 @@ class CrawlerTest extends TestCase
         ];
     }
 }
+
 
