@@ -19,8 +19,8 @@ class CrawlConfiguration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('crawl');
+        $treeBuilder = new TreeBuilder('crawl');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
@@ -145,3 +145,4 @@ class CrawlConfiguration implements ConfigurationInterface
         return $node;
     }
 }
+
