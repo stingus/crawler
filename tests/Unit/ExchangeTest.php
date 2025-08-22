@@ -38,11 +38,12 @@ class ExchangeTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage There are no exchange crawlers registered
      */
     public function testExchangeCrawlWithoutRegisteredCrawlers()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('There are no exchange crawlers registered');
+        
         $exchange = new Exchange(new DomCrawler(), new Client());
         $exchange->crawl();
     }
@@ -264,3 +265,4 @@ class ExchangeTest extends TestCase
             ->getMock();
     }
 }
+
