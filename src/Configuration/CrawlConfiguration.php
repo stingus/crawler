@@ -69,8 +69,8 @@ class CrawlConfiguration implements ConfigurationInterface
      */
     private function addStorageNode()
     {
-        $builder = new TreeBuilder();
-        $node = $builder->root('storage');
+        $builder = new TreeBuilder('storage');
+        $node = $builder->getRootNode();
 
         $node
             ->children()
@@ -145,5 +145,6 @@ class CrawlConfiguration implements ConfigurationInterface
         return $node;
     }
 }
+
 
 
