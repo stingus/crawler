@@ -120,8 +120,8 @@ class CrawlConfiguration implements ConfigurationInterface
      */
     private function addWeatherNode()
     {
-        $builder = new TreeBuilder();
-        $node = $builder->root('weather');
+        $builder = new TreeBuilder('weather');
+        $node = $builder->getRootNode();
 
         $node
             ->children()
@@ -145,6 +145,7 @@ class CrawlConfiguration implements ConfigurationInterface
         return $node;
     }
 }
+
 
 
 
