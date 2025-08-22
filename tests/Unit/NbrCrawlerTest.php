@@ -64,11 +64,12 @@ class NbrCrawlerTest extends TestCase
     }
 
     /**
-     * @expectedException \Stingus\Crawler\Exceptions\Exchange\InvalidExchangeDateException
-     * @expectedExceptionMessage Exchange reference date is empty
      */
     public function testNbrCrawlerInvalidDate()
     {
+        $this->expectException(\Stingus\Crawler\Exceptions\Exchange\InvalidExchangeDateException::class);
+        $this->expectExceptionMessage('Exchange reference date is empty');
+        
         $nbrCrawler = new NbrCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/nbr_invalid_date.xml');
         $nbrCrawler
@@ -117,4 +118,5 @@ class NbrCrawlerTest extends TestCase
         ]);
     }
 }
+
 
