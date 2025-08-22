@@ -37,11 +37,12 @@ class InforeuroCrawlerTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Error trying to fetch the Inforeuro source
      */
     public function testInforeuroCrawlerInvalidData()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Error trying to fetch the Inforeuro source');
+        
         $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_invalid.json');
         $inforeuroCrawler
@@ -116,3 +117,4 @@ class InforeuroCrawlerTest extends TestCase
         ]);
     }
 }
+
