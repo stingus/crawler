@@ -66,11 +66,12 @@ class WeatherTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessageRegExp /Crawler already registered \([a-zA-Z0-9_]+\)/
      */
     public function testWeatherRegisterSameCrawlerTwice()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/Crawler already registered \([a-zA-Z0-9_]+\)/');
+        
         $weather = new Weather(new DomCrawler(), new Client());
         $crawlerMock = $this->getCrawlerMock();
         /** @noinspection PhpParamsInspection */
@@ -224,5 +225,6 @@ class WeatherTest extends TestCase
             ->getMock();
     }
 }
+
 
 
