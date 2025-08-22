@@ -66,11 +66,12 @@ class ExchangeTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessageRegExp /Crawler already registered \([a-zA-Z0-9_]+\)/
      */
     public function testExchangeRegisterSameCrawlerTwice()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/Crawler already registered \([a-zA-Z0-9_]+\)/');
+        
         $exchange = new Exchange(new DomCrawler(), new Client());
         $crawlerMock = $this->getCrawlerMock();
         /** @noinspection PhpParamsInspection */
@@ -266,5 +267,6 @@ class ExchangeTest extends TestCase
             ->getMock();
     }
 }
+
 
 
