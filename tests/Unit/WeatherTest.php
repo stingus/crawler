@@ -38,11 +38,12 @@ class WeatherTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage There are no weather crawlers registered
      */
     public function testWeatherCrawlWithoutRegisteredCrawlers()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('There are no weather crawlers registered');
+        
         $weather = new Weather(new DomCrawler(), new Client());
         $weather->crawl();
     }
@@ -222,3 +223,4 @@ class WeatherTest extends TestCase
             ->getMock();
     }
 }
+
