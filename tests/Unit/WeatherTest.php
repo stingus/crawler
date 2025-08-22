@@ -49,11 +49,12 @@ class WeatherTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessageRegExp /Expected WeatherCrawler instance, got [a-zA-Z0-9_]+/
      */
     public function testWeatherCrawlWithInvalidCrawler()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageMatches('/Expected WeatherCrawler instance, got [a-zA-Z0-9_]+/');
+        
         $weather = new Weather(new DomCrawler(), new Client());
         $crawler = $this
             ->getMockBuilder(Crawler::class)
@@ -223,4 +224,5 @@ class WeatherTest extends TestCase
             ->getMock();
     }
 }
+
 
