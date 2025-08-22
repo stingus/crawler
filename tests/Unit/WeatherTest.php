@@ -132,11 +132,12 @@ class WeatherTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessageRegExp /Key "0" already exists/
      */
     public function testWeatherCrawlMultipleCrawlersWithDuplicateKeysInData()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageMatches('/Key "0" already exists/');
+        
         $weather = new Weather(new DomCrawler(), new Client());
         $results1 = new \ArrayObject([
             0 => new \ArrayObject(['a' => 1, 'b' => 2, 'c' => 3]),
@@ -225,6 +226,7 @@ class WeatherTest extends TestCase
             ->getMock();
     }
 }
+
 
 
 
