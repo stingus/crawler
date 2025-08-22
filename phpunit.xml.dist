@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-        bootstrap="./vendor/autoload.php"
-        colors="true"
-        convertErrorsToExceptions="true"
-        convertNoticesToExceptions="true"
-        convertWarningsToExceptions="true"
-        verbose="true"
-        stopOnFailure="false"
-        processIsolation="false"
-        backupGlobals="false"
-        syntaxCheck="true"
-        columns="max"
->
-    <filter>
-        <whitelist>
-            <directory>./src/Crawler/</directory>
-            <directory>./src/Exchange/</directory>
-            <directory>./src/Weather/</directory>
-        </whitelist>
-    </filter>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
+         bootstrap="./vendor/autoload.php"
+         colors="true"
+         stopOnFailure="false"
+         processIsolation="false"
+         backupGlobals="false"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true">
     <testsuites>
         <testsuite name="Crawler Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
+    <source>
+        <include>
+            <directory>./src/Crawler/</directory>
+            <directory>./src/Exchange/</directory>
+            <directory>./src/Weather/</directory>
+        </include>
+    </source>
     <logging>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
+        <junit outputFile="build/logs/junit.xml"/>
+        <clover outputFile="build/logs/clover.xml"/>
     </logging>
 </phpunit>
+
