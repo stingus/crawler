@@ -49,11 +49,12 @@ class NbrCrawlerTest extends TestCase
     }
 
     /**
-     * @expectedException \Stingus\Crawler\Exceptions\Exchange\InvalidExchangeRateValueException
-     * @expectedExceptionMessageRegExp /Invalid value for currency USD and crawler [a-zA-Z0-9_]+/
      */
     public function testNbrCrawlerInvalidValue()
     {
+        $this->expectException(\Stingus\Crawler\Exceptions\Exchange\InvalidExchangeRateValueException::class);
+        $this->expectExceptionMessageMatches('/Invalid value for currency USD and crawler [a-zA-Z0-9_]+/');
+        
         $nbrCrawler = new NbrCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/nbr_invalid_value.xml');
         $nbrCrawler
@@ -116,3 +117,4 @@ class NbrCrawlerTest extends TestCase
         ]);
     }
 }
+
