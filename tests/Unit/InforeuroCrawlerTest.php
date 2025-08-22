@@ -52,11 +52,12 @@ class InforeuroCrawlerTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Inforeuro not found
      */
     public function testInforeuroCrawlerNoCountry()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Inforeuro not found');
+        
         $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_invalid_no_country.json');
         $inforeuroCrawler
@@ -117,4 +118,5 @@ class InforeuroCrawlerTest extends TestCase
         ]);
     }
 }
+
 
