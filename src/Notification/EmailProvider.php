@@ -2,6 +2,9 @@
 
 namespace Stingus\Crawler\Notification;
 
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mime\Email;
+
 /**
  * Class EmailProvider
  *
@@ -9,25 +12,27 @@ namespace Stingus\Crawler\Notification;
  */
 class EmailProvider
 {
-    /** @var \Swift_Message */
-    private $message;
-
-    /** @var \Swift_Mailer */
+    /** @var Mailer */
     private $mailer;
+
+    /** @var string */
+    private $mailTo;
+
+    /** @var string */
+    private $mailFrom;
 
     /**
      * EmailProvider constructor.
      *
-     * @param \Swift_Mailer $mailer
-     * @param string        $mailTo
-     * @param string        $mailFrom
+     * @param Mailer $mailer
+     * @param string $mailTo
+     * @param string $mailFrom
      */
-    public function __construct(\Swift_Mailer $mailer, $mailTo, $mailFrom)
+    public function __construct(Mailer $mailer, $mailTo, $mailFrom)
     {
         $this->mailer = $mailer;
-        $this->message = $mailer->createMessage('message');
-        $this->message->setTo($mailTo);
-        $this->message->setFrom($mailFrom);
+        $this->mailTo = $mailTo;
+        $this->mailFrom = $mailFrom;
     }
 
     /**
@@ -35,9 +40,13 @@ class EmailProvider
      */
     public function send(Notification $notification)
     {
-        $this->message
-            ->setSubject($notification->getSubject())
-            ->setBody($notification->getBody());
-        $this->mailer->send($this->message);
+        $email = (new Email())
+            ->from($this->mailFrom)
+            ->to($this->mailTo)
+            ->subject($notification->getSubject())
+            ->text($notification->getBody());
+
+        $this->mailer->send($email);
     }
 }
+
