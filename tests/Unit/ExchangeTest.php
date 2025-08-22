@@ -49,11 +49,12 @@ class ExchangeTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessageRegExp /Expected ExchangeCrawler instance, got [a-zA-Z0-9_]+/
      */
     public function testExchangeWithInvalidCrawler()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageMatches('/Expected ExchangeCrawler instance, got [a-zA-Z0-9_]+/');
+        
         $exchange = new Exchange(new DomCrawler(), new Client());
         $crawler = $this
             ->getMockBuilder(Crawler::class)
@@ -265,4 +266,5 @@ class ExchangeTest extends TestCase
             ->getMock();
     }
 }
+
 
