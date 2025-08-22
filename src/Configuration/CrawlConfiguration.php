@@ -94,8 +94,8 @@ class CrawlConfiguration implements ConfigurationInterface
      */
     private function addExchangeNode()
     {
-        $builder = new TreeBuilder();
-        $node = $builder->root('exchange');
+        $builder = new TreeBuilder('exchange');
+        $node = $builder->getRootNode();
 
         $node
             ->children()
@@ -145,6 +145,7 @@ class CrawlConfiguration implements ConfigurationInterface
         return $node;
     }
 }
+
 
 
 
