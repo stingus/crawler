@@ -222,11 +222,12 @@ class ExchangeTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessageRegExp /Key "b" already exists/
      */
     public function testExchangeCrawlMultipleCrawlersWithDuplicateKeysInData()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageMatches('/Key "b" already exists/');
+        
         $exchange = new Exchange(new DomCrawler(), new Client());
         $results1 = new \ArrayObject([
             'a' => 1,
@@ -267,6 +268,7 @@ class ExchangeTest extends TestCase
             ->getMock();
     }
 }
+
 
 
 
