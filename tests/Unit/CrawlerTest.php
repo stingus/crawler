@@ -27,23 +27,25 @@ class CrawlerTest extends TestCase
 
     /**
      * @dataProvider invalidUrlProvider
-     * @expectedException \Stingus\Crawler\Exceptions\InvalidCrawlerUrlException
      *
      * @param $url
      */
     public function testInvalidUrl($url)
     {
+        $this->expectException(\Stingus\Crawler\Exceptions\InvalidCrawlerUrlException::class);
+        
         new DummyCrawler($url);
     }
 
     /**
      * @dataProvider errorStatusCodeProvider
-     * @expectedException \GuzzleHttp\Exception\RequestException
      *
      * @param $responseCode
      */
     public function testNbrCrawlerStatusCodeError($responseCode)
     {
+        $this->expectException(\GuzzleHttp\Exception\RequestException::class);
+        
         $client = $this->getMockClient($responseCode);
         $crawler = new DummyCrawler('http://example.com');
         $crawler
@@ -149,3 +151,5 @@ class CrawlerTest extends TestCase
         ];
     }
 }
+
+

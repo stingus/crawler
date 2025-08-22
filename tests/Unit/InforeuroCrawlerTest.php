@@ -37,11 +37,12 @@ class InforeuroCrawlerTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Error trying to fetch the Inforeuro source
      */
     public function testInforeuroCrawlerInvalidData()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Error trying to fetch the Inforeuro source');
+        
         $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_invalid.json');
         $inforeuroCrawler
@@ -51,11 +52,12 @@ class InforeuroCrawlerTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Inforeuro not found
      */
     public function testInforeuroCrawlerNoCountry()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Inforeuro not found');
+        
         $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_invalid_no_country.json');
         $inforeuroCrawler
@@ -65,11 +67,12 @@ class InforeuroCrawlerTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Inforeuro not found
      */
     public function testInforeuroCrawlerMissingCountry()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Inforeuro not found');
+        
         $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_invalid_missing_country.json');
         $inforeuroCrawler
@@ -79,11 +82,12 @@ class InforeuroCrawlerTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Inforeuro not found
      */
     public function testInforeuroCrawlerNoValue()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Inforeuro not found');
+        
         $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_invalid_no_value.json');
         $inforeuroCrawler
@@ -93,11 +97,12 @@ class InforeuroCrawlerTest extends TestCase
     }
 
     /**
-     * @expectedException \Stingus\Crawler\Exceptions\Exchange\InvalidExchangeRateValueException
-     * @expectedExceptionMessageRegExp /Invalid value for currency Inforeuro and crawler [a-zA-Z0-9_]+/
      */
     public function testInforeuroCrawlerInvalidValue()
     {
+        $this->expectException(\Stingus\Crawler\Exceptions\Exchange\InvalidExchangeRateValueException::class);
+        $this->expectExceptionMessageMatches('/Invalid value for currency Inforeuro and crawler [a-zA-Z0-9_]+/');
+        
         $inforeuroCrawler = new InforeuroCrawler('http://example.com');
         $client = $this->getMockClient(200, 'exchange/inforeuro_invalid_value.json');
         $inforeuroCrawler
@@ -116,3 +121,8 @@ class InforeuroCrawlerTest extends TestCase
         ]);
     }
 }
+
+
+
+
+

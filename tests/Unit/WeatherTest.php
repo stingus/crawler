@@ -38,21 +38,23 @@ class WeatherTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage There are no weather crawlers registered
      */
     public function testWeatherCrawlWithoutRegisteredCrawlers()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('There are no weather crawlers registered');
+        
         $weather = new Weather(new DomCrawler(), new Client());
         $weather->crawl();
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessageRegExp /Expected WeatherCrawler instance, got [a-zA-Z0-9_]+/
      */
     public function testWeatherCrawlWithInvalidCrawler()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageMatches('/Expected WeatherCrawler instance, got [a-zA-Z0-9_]+/');
+        
         $weather = new Weather(new DomCrawler(), new Client());
         $crawler = $this
             ->getMockBuilder(Crawler::class)
@@ -64,11 +66,12 @@ class WeatherTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessageRegExp /Crawler already registered \([a-zA-Z0-9_]+\)/
      */
     public function testWeatherRegisterSameCrawlerTwice()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/Crawler already registered \([a-zA-Z0-9_]+\)/');
+        
         $weather = new Weather(new DomCrawler(), new Client());
         $crawlerMock = $this->getCrawlerMock();
         /** @noinspection PhpParamsInspection */
@@ -129,11 +132,12 @@ class WeatherTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessageRegExp /Key "0" already exists/
      */
     public function testWeatherCrawlMultipleCrawlersWithDuplicateKeysInData()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageMatches('/Key "0" already exists/');
+        
         $weather = new Weather(new DomCrawler(), new Client());
         $results1 = new \ArrayObject([
             0 => new \ArrayObject(['a' => 1, 'b' => 2, 'c' => 3]),
@@ -222,3 +226,7 @@ class WeatherTest extends TestCase
             ->getMock();
     }
 }
+
+
+
+

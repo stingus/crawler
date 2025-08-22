@@ -38,21 +38,23 @@ class ExchangeTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage There are no exchange crawlers registered
      */
     public function testExchangeCrawlWithoutRegisteredCrawlers()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('There are no exchange crawlers registered');
+        
         $exchange = new Exchange(new DomCrawler(), new Client());
         $exchange->crawl();
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessageRegExp /Expected ExchangeCrawler instance, got [a-zA-Z0-9_]+/
      */
     public function testExchangeWithInvalidCrawler()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageMatches('/Expected ExchangeCrawler instance, got [a-zA-Z0-9_]+/');
+        
         $exchange = new Exchange(new DomCrawler(), new Client());
         $crawler = $this
             ->getMockBuilder(Crawler::class)
@@ -64,11 +66,12 @@ class ExchangeTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessageRegExp /Crawler already registered \([a-zA-Z0-9_]+\)/
      */
     public function testExchangeRegisterSameCrawlerTwice()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/Crawler already registered \([a-zA-Z0-9_]+\)/');
+        
         $exchange = new Exchange(new DomCrawler(), new Client());
         $crawlerMock = $this->getCrawlerMock();
         /** @noinspection PhpParamsInspection */
@@ -219,11 +222,12 @@ class ExchangeTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessageRegExp /Key "b" already exists/
      */
     public function testExchangeCrawlMultipleCrawlersWithDuplicateKeysInData()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageMatches('/Key "b" already exists/');
+        
         $exchange = new Exchange(new DomCrawler(), new Client());
         $results1 = new \ArrayObject([
             'a' => 1,
@@ -264,3 +268,7 @@ class ExchangeTest extends TestCase
             ->getMock();
     }
 }
+
+
+
+

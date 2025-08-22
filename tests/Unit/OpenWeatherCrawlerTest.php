@@ -109,12 +109,13 @@ class OpenWeatherCrawlerTest extends TestCase
 
     /**
      * @dataProvider invalidUnitProvider
-     * @expectedException \Stingus\Crawler\Exceptions\Weather\InvalidWeatherUnitException
      *
      * @param mixed $unit
      */
     public function testInvalidUnit($unit)
     {
+        $this->expectException(\Stingus\Crawler\Exceptions\Weather\InvalidWeatherUnitException::class);
+        
         new OpenWeatherCrawler('http://example.com', $unit, []);
     }
 
@@ -287,3 +288,4 @@ class OpenWeatherCrawlerTest extends TestCase
         );
     }
 }
+

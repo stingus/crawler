@@ -19,8 +19,8 @@ class CrawlConfiguration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('crawl');
+        $treeBuilder = new TreeBuilder('crawl');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
@@ -46,8 +46,8 @@ class CrawlConfiguration implements ConfigurationInterface
      */
     private function addNotificationNode()
     {
-        $builder = new TreeBuilder();
-        $node = $builder->root('notification');
+        $builder = new TreeBuilder('notification');
+        $node = $builder->getRootNode();
 
         $node
             ->children()
@@ -69,8 +69,8 @@ class CrawlConfiguration implements ConfigurationInterface
      */
     private function addStorageNode()
     {
-        $builder = new TreeBuilder();
-        $node = $builder->root('storage');
+        $builder = new TreeBuilder('storage');
+        $node = $builder->getRootNode();
 
         $node
             ->children()
@@ -94,8 +94,8 @@ class CrawlConfiguration implements ConfigurationInterface
      */
     private function addExchangeNode()
     {
-        $builder = new TreeBuilder();
-        $node = $builder->root('exchange');
+        $builder = new TreeBuilder('exchange');
+        $node = $builder->getRootNode();
 
         $node
             ->children()
@@ -120,8 +120,8 @@ class CrawlConfiguration implements ConfigurationInterface
      */
     private function addWeatherNode()
     {
-        $builder = new TreeBuilder();
-        $node = $builder->root('weather');
+        $builder = new TreeBuilder('weather');
+        $node = $builder->getRootNode();
 
         $node
             ->children()
@@ -145,3 +145,8 @@ class CrawlConfiguration implements ConfigurationInterface
         return $node;
     }
 }
+
+
+
+
+
