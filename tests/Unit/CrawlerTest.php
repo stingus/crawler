@@ -27,12 +27,13 @@ class CrawlerTest extends TestCase
 
     /**
      * @dataProvider invalidUrlProvider
-     * @expectedException \Stingus\Crawler\Exceptions\InvalidCrawlerUrlException
      *
      * @param $url
      */
     public function testInvalidUrl($url)
     {
+        $this->expectException(\Stingus\Crawler\Exceptions\InvalidCrawlerUrlException::class);
+        
         new DummyCrawler($url);
     }
 
@@ -149,3 +150,4 @@ class CrawlerTest extends TestCase
         ];
     }
 }
+
