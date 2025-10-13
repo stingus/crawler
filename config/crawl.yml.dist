@@ -28,6 +28,7 @@ crawl:
     -
       class: 'Stingus\Crawler\Weather\OpenWeatherCrawler'
       url: 'http://api.openweathermap.org/data/2.5'
-      stations: [<station>, <station>]
+      stations: [683506, 5128581]
       lang: 'en'
       apiKey: <apikey>
+
